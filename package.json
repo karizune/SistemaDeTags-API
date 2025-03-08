@@ -1,0 +1,19 @@
+{
+  "name": "sistema-de-tags-api",
+  "version": "1.0.0",
+  "description": "API para cadastro de informações e consulta das mesmas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karizune/SistemaDeTags-API.git"
+  },
+  "author": "Karizune Kabu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karizune/SistemaDeTags-API/issues"
+  },
+  "homepage": "https://github.com/karizune/SistemaDeTags-API#readme"
+}
