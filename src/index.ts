@@ -1,11 +1,12 @@
 import express from 'express';
-const app = express();
-const port = 3000;
+import { Configuration } from './Application/Config/Configuration';
+import { ProductRoutes } from './Route/ProductRoutes';
+import { Dependencies } from './Application/DependencyInjection/Dependencies';
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+const server: express.Express = express();
+server.use(express.json());
+server.use(new ProductRoutes(Dependencies.ProductController).GetRoutes())
 
-app.listen(port, () => {
-    return console.log(`Express is listening at http://localhost:${port}`);
+server.listen(Configuration.BackendPort, () => {
+	return console.log(`Server is running at http://localhost:${Configuration.BackendPort}`);
 });
