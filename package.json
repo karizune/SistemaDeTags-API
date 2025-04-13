@@ -6,11 +6,9 @@
   "scripts": {
     "clean": "rmdir /s /q dist",
     "build": "tsc",
-    "nodemon": "nodemon",
-    "tsnode": "ts-node",
-    "swagger-autogen": "nodemon ./swagger.ts",
-    "test": "jest --verbose --testPathIgnorePatterns=/dist/ ",
-    "CoveredTest": "jest --verbose --collectCoverage --testPathIgnorePatterns=/dist/"
+    "start": "node dist/src/app.js",
+    "start-nodemon": "nodemon src/app.ts",
+    "postinstall": "tsc"
   },
   "nodemonConfig": {
     "ignore": [
