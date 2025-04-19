@@ -198,10 +198,16 @@ export class List<T> {
 	public Remove(item: T): void {
 		let newArray: Array<T> = [];
 
+		if (this.InternalArray.length === 0) {
+			return;
+		}
+
 		let index: number = this.InternalArray.findIndex((element: T, index: number) => {
 			if (element === item) {
 				return index
 			}
+
+			return -1;
 		});
 
 		if (index === 0) {
