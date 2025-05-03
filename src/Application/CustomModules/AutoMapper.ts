@@ -14,8 +14,22 @@ export class AutoMapper {
 			throw new Error("objeto de entrada não compatível.");
 		}
 
-		if (object instanceof List || object instanceof Array) {
+		if (object instanceof List) {
 			throw new Error("Objeto de entrada deve ser único.");
+		}
+
+		if (object instanceof Array) {
+			if (object.length > 1) {
+				throw new Error("Objeto de entrada deve ser único.");
+			}
+
+			if (object.length === 1) {
+				object = object[0]; //mutates into a single one
+			}
+
+			if (object.length === 0) {
+				return new type();
+			}
 		}
 
 		let sample: T = new type();
