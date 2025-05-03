@@ -80,12 +80,12 @@ export class ErrorHandling {
 				}
 			}
 
-			if (property instanceof Array && this.ValidateArray(property)) {
+			if (property instanceof Array && this.ValidateArray(property) && property.length > 0) {
 				property.forEach(item => {
 					ValidateProps(item, propertyName);
 				});
 			}
-			else if (property instanceof List && this.ValidateList(property)) {
+			else if (property instanceof List && this.ValidateList(property) && property.Count() > 0) {
 				property.ToArray().forEach(item => {
 					ValidateProps(item, propertyName);
 				});
