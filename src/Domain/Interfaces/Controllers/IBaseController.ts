@@ -6,7 +6,7 @@ export interface IBaseController<T> {
 	 * @param id The ID from item T.
 	 * @returns A HttpResponse containing the item T or the error ocurred.
 	 */
-	GetOne(id?: number): Promise<HttpResponse>;
+	GetOne(id: number): Promise<HttpResponse>;
 
 	/**
 	 * Get every item of T if exists.

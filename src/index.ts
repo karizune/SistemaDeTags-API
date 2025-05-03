@@ -1,14 +1,19 @@
-import express from 'express';
+import express, { Router } from 'express';
+import cors from 'cors';
+
 import { Configuration } from './Application/Config/Configuration';
 import { ProductRoutes } from './Route/ProductRoutes';
 import { Dependencies } from './Application/DependencyInjection/Dependencies';
-import cors from 'cors';
+import { CompanyRoutes } from './Route/CompanyRoutes';
+import { UserRoutes } from './Route/UserRoutes';
 
 const server: express.Express = express();
-server.use(cors()); // Habilita CORS para todas as rotas
+server.use(cors());
 server.use(express.json());
-server.use(new ProductRoutes(Dependencies.ProductController).GetRoutes())
+server.use("/User", new UserRoutes(Dependencies.UserController).GetRoutes());
+server.use("/Product", new ProductRoutes(Dependencies.ProductController).GetRoutes());
+server.use("/Company", new CompanyRoutes(Dependencies.CompanyController).GetRoutes());
 
 server.listen(Configuration.BackendPort, () => {
-	return console.log(`Server is running at http://localhost:${Configuration.BackendPort}`);
+	console.log('servidor iniciado.')
 });

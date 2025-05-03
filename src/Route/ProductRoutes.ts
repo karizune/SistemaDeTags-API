@@ -1,52 +1,61 @@
 import { Router, Request, Response } from "express";
 import { AutoMapper } from "../Application/CustomModules/AutoMapper";
-import { Product } from "../Domain/Classes/Product";
+import { Product } from "../Domain/Entities/Product";
 import { HttpResponse } from "../Domain/Classes/HttpResponse";
-import { HttpHelper } from "../Application/CustomModules/HttpHelper";
 import { IProductController } from "../Domain/Interfaces/Controllers/IProductController";
 
 export class ProductRoutes {
-	private Routes: Router;
-	private ProductController: IProductController
 
-	public constructor(ProductController: IProductController) {
-		this.Routes = Router();
-		this.ProductController = ProductController;
+	public constructor(
+		private productController: IProductController,
+		private routes = Router()
+	) {
 		this.GetProductRoutes();
 	}
 
 	public GetRoutes(): Router {
-		return this.Routes;
+		return this.routes;
 	}
 
 	private GetProductRoutes(): void {
-		this.Routes.get("/GetOne", async (req: Request, res: Response) => {
-			let props: { Id: number } = { Id: 0 };
-			props = HttpHelper.TryGetParamsFromQueryString(req.query, props);
-			let response: HttpResponse = await this.ProductController.GetOne(props.Id);
+		this.routes.get("/GetOne", async (req: Request, res: Response) => {
+			let productID: number = Number.parseInt(req.query.ProductID as string);
+			let companyID: number = Number.parseInt(req.query.CompanyID as string);
+			let response: HttpResponse = await this.productController.GetOneByCompany(productID, companyID);
+
 			return res.status(response.Status).json(response.Body);
 		});
 
-		this.Routes.get("/GetAll", async (req: Request, res: Response) => {
-			let response: HttpResponse = await this.ProductController.GetAll();
+		this.routes.get("/GetAll", async (req: Request, res: Response) => {
+			let companyID: number = Number.parseInt(req.query.CompanyID as string);
+			let response: HttpResponse = await this.productController.GetAllByCompany(companyID);
+
 			return res.status(response.Status).json(response.Body);
 		})
 
-		this.Routes.post("/Add", async (req: Request, res: Response) => {
-			let response: HttpResponse = await this.ProductController.AddOne(AutoMapper.Map(req.body, Product));
+		this.routes.post("/Add", async (req: Request, res: Response) => {
+			let response: HttpResponse = await this.productController.AddOne(AutoMapper.Map(req.body, Product));
 			return res.status(response.Status).json(response.Body);
 		});
 
-		this.Routes.put("/Update", async (req: Request, res: Response) => {
-			let prod: Product = AutoMapper.Map(req.body, Product);
-			prod.ID = Number.parseInt(req.query.Id as string)
-			let response: HttpResponse = await this.ProductController.UpdateOne(prod);
+		this.routes.put("/Update", async (req: Request, res: Response) => {
+			let product: Product = AutoMapper.Map(req.body, Product);
+			let productID: number = Number.parseInt(req.query.ProductID as string);
+			let companyID: number = Number.parseInt(req.query.CompanyID as string);
+
+			product.ID = productID;
+			product.CompanyID = companyID;
+
+			let response: HttpResponse = await this.productController.UpdateOne(product);
 
 			return res.status(response.Status).json(response.Body);
 		});
 
-		this.Routes.delete("/Delete", async (req: Request, res: Response) => {
-			let response: HttpResponse = await this.ProductController.InactivateOne(Number.parseInt(req.query.Id as string));
+		this.routes.delete("/Delete", async (req: Request, res: Response) => {
+			let id: number = Number.parseInt(req.query.ID as string);
+			let companyID: number = Number.parseInt(req.query.CompanyID as string);
+			let response: HttpResponse = await this.productController.InactivateOneByCompany(id, companyID);
+
 			return res.status(response.Status).json(response.Body);
 		})
 	}

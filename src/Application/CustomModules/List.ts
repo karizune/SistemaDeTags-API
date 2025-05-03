@@ -18,7 +18,9 @@ export class List<T> {
 		this.InternalArray = [];
 
 		if (array && array?.length > 0) {
-			this.InternalArray.concat(array);
+			array.forEach(element => {
+				this.InternalArray.push(element);
+			});
 		}
 	}
 

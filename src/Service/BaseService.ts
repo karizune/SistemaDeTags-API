@@ -1,15 +1,11 @@
 import { List } from "../Application/CustomModules/List";
 import { BaseClass } from "../Domain/Classes/BaseClass";
-import { IBaseRepository } from "../Domain/Interfaces/Repositories/Base/IBaseRepository";
+import { IBaseRepository } from "../Domain/Interfaces/Repositories/IBaseRepository";
 import { IBaseService } from "../Domain/Interfaces/Services/IBaseService";
 
 export abstract class BaseService<T extends BaseClass> implements IBaseService<T> {
 
-	Repository: IBaseRepository<T>;
-
-	public constructor(repository: IBaseRepository<T>) {
-		this.Repository = repository;
-	}
+	public constructor(protected Repository: IBaseRepository<T>) { }
 
 	public async GetAll(): Promise<List<T>> {
 		return await this.Repository.GetAll();
@@ -34,7 +30,7 @@ export abstract class BaseService<T extends BaseClass> implements IBaseService<T
 			return false;
 		}
 
-		return this.Repository.InactivateOne(id);
+		return await this.Repository.InactivateOne(id);
 	}
 
 	public async ReactivateOne(id: number): Promise<boolean> {
@@ -44,6 +40,6 @@ export abstract class BaseService<T extends BaseClass> implements IBaseService<T
 			return false;
 		}
 
-		return this.Repository.ReactivateOne(id);
+		return await this.Repository.ReactivateOne(id);
 	}
 }

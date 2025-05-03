@@ -7,8 +7,6 @@ import { IBaseService } from "../Domain/Interfaces/Services/IBaseService";
 
 export abstract class BaseController<T extends BaseClass> implements IBaseController<T> {
 
-	private Service: IBaseService<T>;
-
 	protected readonly BaseMessages: {
 		AddFailure: string,
 		UpdateFailure: string,
@@ -20,9 +18,7 @@ export abstract class BaseController<T extends BaseClass> implements IBaseContro
 		PropIdRequired: string
 	};
 
-	constructor(service: IBaseService<T>) {
-		this.Service = service;
-
+	public constructor(protected Service: IBaseService<T>) {
 		this.BaseMessages = {
 			AddFailure: "Já cadastrado ou impossível completar o cadastro.",
 			UpdateFailure: "Falha em atualizar.",

@@ -1,7 +1,13 @@
-import { List } from "../../../../Application/CustomModules/List";
-import { BaseClass } from "../../../Classes/BaseClass";
+import { List } from "../../../Application/CustomModules/List";
+import { BaseClass } from "../../Classes/BaseClass";
 
 export interface IBaseRepository<T extends BaseClass> {
+
+	/**
+	 * Try to verify if the object can be valid by having an id and not being null or undefined
+	 * @param obj The object to be validated
+	 */
+	ObjectIsValid(obj: any): boolean;
 
 	/**
 	 * Gets every item T into a List of T.
