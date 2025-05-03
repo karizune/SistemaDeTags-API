@@ -8,8 +8,6 @@ indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
 format_on_save=true
-
-[*.ts]
 quote_type = single
 
 [*.md]
